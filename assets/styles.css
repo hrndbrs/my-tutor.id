@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  all: unset;
+  cursor: pointer;
+}
+
+body {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.top-nav {
+  position: sticky;
+}
+.top-nav nav {
+  display: flex;
+  width: 100pw;
+  justify-content: center;
+  align-items: center;
+  gap: 10vw;
+}
+.top-nav nav .Redirect-login {
+  font-size: 1.3rem;
+}
+.top-nav nav .main-logo {
+  font-family: "Oxygen", sans-serif;
+}
+.top-nav nav img {
+  width: 112px;
+  aspect-ratio: 1/1;
+  padding: 1rem;
+}
+
+/*# sourceMappingURL=styles.css.map */
