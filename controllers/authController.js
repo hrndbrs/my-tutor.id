@@ -105,6 +105,8 @@ class AuthController {
                 res.status(401).redirect(`/auth?tab=log-in&errors=${[errors]}`)
         }
     }
+
+    static 
 }
 
 module.exports = AuthController 
