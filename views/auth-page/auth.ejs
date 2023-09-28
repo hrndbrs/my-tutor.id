@@ -1,6 +1,7 @@
 <%- include("../components/__head", { title : "Log In"}) %>
    <main>
       <div>
+         <%- errors && include("../components/__errorMessages", { errors }) %>
          <%- 
             include(
                "__tab", 

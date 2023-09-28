@@ -5,7 +5,10 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class InstructorProfile extends Model {
     static associate(models) {
-      InstructorProfile.belongsTo(models.Instructor)
+      InstructorProfile.belongsTo(models.Instructor, {
+        foreignKey: 'InstructorId', 
+        targetKey: 'roleId',  
+      })
     }
   }
   InstructorProfile.init({

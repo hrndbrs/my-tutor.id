@@ -1,13 +1,13 @@
-<form action="<%= action %>" method="<%= method %>">
+<form id="authForm" action="<%= action %>" method="<%= method %>">
     <label for="email">Email</label>
     <input type="text" name="email">
     <label for="password">Password</label>
-    <input type="text" name="password">
+    <input type="password" name="password">
     <label for="role"><%= type %> As</label>
-    <select name="role" id="role">
+    <select name="role" <% if(type === "Register") { %>id="roleRegister"<% } else { %> id="role" <% } %> >
         <option selected hidden disabled>Select Role</option>
         <option value="tutor">Tutor</option>
         <option value="student">Student</option>
     </select>
-    <button type="submit"><%= type %> Now!</button>
+    <button id="authBtn" type="submit"><%= type %> Now!</button>
 </form>

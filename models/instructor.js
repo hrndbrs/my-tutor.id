@@ -7,7 +7,10 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Instructor extends Model {
     static associate(models) {
-      Instructor.hasOne(models.InstructorProfile)
+      Instructor.hasOne(models.InstructorProfile, {
+        foreignKey: 'UserId', 
+        sourceKey: 'roleId',  
+      })
       Instructor.belongsToMany(models.User, { as : "Instructor", through: "Booking"})
     }
   }

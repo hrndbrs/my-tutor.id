@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "scss" : "sass --watch app/sass:public/stylesheets"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "pg": "^8.11.3",
+    "sass": "^1.68.0",
     "sequelize": "^6.33.0"
   },
   "devDependencies": {

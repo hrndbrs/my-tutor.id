@@ -10,10 +10,12 @@ const {
 
 class AuthController {
     static renderAuthForm(req, res) {
-        let { tab } = req.query
+        let { tab, errors } = req.query
+        errors = errors?.split(",")
+
         if(tab === undefined) tab = "log-in"
 
-        res.render("auth-page/auth.ejs", { tab, slugToPascal })
+        res.render("auth-page/auth.ejs", { tab, slugToPascal, errors })
     }
 
     static registrationHelper(role, entity, profile, input, req, res) {
@@ -35,31 +37,26 @@ class AuthController {
                 return profile.create({ [key] : roleId})
             })
             .then(()=>{
-                req.session.user = roleId
-                res.send(user)
+                req.session.auth = roleId
+                res.redirect("/")
             })
             .catch(err => {
-                if(err.name === "SequelizeUniqueConstraintError") return res
-                    .status(409)
-                    .json({errors : ["Email address already exists"]})
-                else if (err.name === "SequelizeValidationError") return res
-                    .status(400)
-                    .json({errors : err.errors.map(x => x.message)})
-                res.status(500).json({errors : ["Internal Server Error"]})
-            })
-    }
+                let status, errors
+                if(err.name === "SequelizeUniqueConstraintError") {
+                    status = 409
+                    errors = ["Email address already exists"]
+                }
+                else if (err.name === "SequelizeValidationError") {
+                    status = 400
+                    errors = err.errors.map(x => x.message)
+                }
+                else {
+                    status = 500
+                    errors = ["Internal Server Error"]
+                }
 
-    static loginHelper(input, entity, req, res) {
-
-        return  entity.findOne({
-            where : { email : { [Op.iLike] : input.email }}
-        })
-            .then(user => {
-                if(!compareSync(input.password, user?.password)) throw new Error("Password is incorrect")
-                req.session.user = user.roleId
-                res.send({isLoggedIn : true, user : req.session.user})
+                res.status(status).redirect(`/auth?tab=register&errors=${errors}`)
             })
-            .catch(err => res.status(401).json({errors : [err.message]}))
     }
 
     static handleRegister(req, res) {
@@ -71,8 +68,28 @@ class AuthController {
             case "tutor" :
                 return AuthController.registrationHelper(role, Instructor, InstructorProfile, req.body, req, res)
             default :
-                res.status(400).json({errors : ["Bad request"]})
+                const errors = ["Please choose a role"]
+                res.status(400).redirect(`/auth?tab=register&errors=${errors}`)
         }
+    }
+
+    static loginHelper(input, entity, req, res) {
+
+        return  entity.findOne({
+            where : { email : { [Op.iLike] : input.email }}
+        })
+            .then(user => {
+                if(user){
+                    if(!compareSync(input.password, user?.password)) throw new Error("Password is incorrect")
+
+                    req.session.auth = user.roleId
+
+                    return res.redirect("/dashboard")
+                } 
+                
+                throw new Error("Invalid email address. User is not found")
+            })
+            .catch(err => res.status(401).redirect(`/auth?tab=log-in&errors=${[err.message]}`))
     }
 
     static handleUserLogin(req, res) {
@@ -84,19 +101,9 @@ class AuthController {
             case "tutor" : 
                 return AuthController.loginHelper(req.body, Instructor, req, res)
             default :
-                res.status(401).json({errors : ["Chosen role doesn't exist"]})
+                const errors = ["Chosen role doesn't exist"]
+                res.status(401).redirect(`/auth?tab=log-in&errors=${[errors]}`)
         }
-    }
-
-    static loginSession(req, res) {
-        console.log(req.session, 82)
-        if(!req.session.user) return res.send({ isLoggedIn : false })
-
-        res.send({isLoggedIn : true, user : req.session.user})
-    }
-
-    static removeCookie(req, res) {
-        res.clearCookie()
     }
 }
 
