@@ -1,0 +1,13 @@
+<%- include("../components/__head", { title : "Log In"}) %>
+   <main>
+      <div>
+         <%- 
+            include(
+               "__tab", 
+               { action : "/auth/" + tab, method: "Post", type: slugToPascal(tab) }
+            ) 
+         %>
+      </div>
+   </main>
+</body>
+</html>

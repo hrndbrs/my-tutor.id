@@ -1,0 +1,13 @@
+<form action="<%= action %>" method="<%= method %>">
+    <label for="email">Email</label>
+    <input type="text" name="email">
+    <label for="password">Password</label>
+    <input type="text" name="password">
+    <label for="role"><%= type %> As</label>
+    <select name="role" id="role">
+        <option selected hidden disabled>Select Role</option>
+        <option value="tutor">Tutor</option>
+        <option value="student">Student</option>
+    </select>
+    <button type="submit"><%= type %> Now!</button>
+</form>
