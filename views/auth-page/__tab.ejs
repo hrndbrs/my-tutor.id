@@ -1,7 +1,9 @@
 <div>
     <div class="tab">
-        <a href="/auth?tab=log-in">Log-In</a>
-        <a href="/auth?tab=register">Register</a>
+        <div class="tab-options">
+            <a href="/auth?tab=log-in">Log-In</a>
+            <a href="/auth?tab=register">Register</a>
+        </div>
         <%- include("__form", { action, method, type }) %>
     </div>
 

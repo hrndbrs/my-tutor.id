@@ -4,6 +4,16 @@
             <img src="/img/logo.svg" alt="logo">
             <p>myTutor.id</p>
         </a>
-        <a href="/auth" class="Redirect-login">Log-In</a>
+        <% if(!locals.auth) { %>
+            <a href="/auth" class="Redirect-login">Log-In</a>
+        <% } else { 
+            if(auth[0] === "T") {%>
+                <%- include("./__instructorSidenav") %>
+            <% } else if(auth[0] === "S") { %>
+                <%- include("./__studentSidenav") %>
+            <% }%>
+            <a href="/auth/logout">Log-Out</a>
+        <% } %>
+
     </nav>
 </div>

@@ -14,7 +14,7 @@ if(optionalSelect) {
 
     const label = document.createElement("label")
     label.setAttribute("for", "course")
-    label.innerHTML = "What do you teach"
+    label.innerHTML = "What do you teach?"
 
     const input = document.createElement("input")
     input.setAttribute("name", "course")

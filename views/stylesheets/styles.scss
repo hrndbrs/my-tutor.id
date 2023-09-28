@@ -12,49 +12,76 @@ a {
 body {
   font-family: "IBM Plex Sans", sans-serif;
   position: relative;
+  background-color: #FFB38A;
+}
+
+main {
+  position: unset;
 }
 
 .top-nav {
   position: sticky;
+  z-index: 100;
   nav {
     display: flex;
-    // padding: ;
-    width: 100pw;
+    width: 100vw;
     justify-content: center;
     align-items: center;
     gap: 10vw;
     background-color: white;
 
     .Redirect-login{
-        font-size: 1.3rem;
+        font-size: 1.1rem;
     }
     .main-logo {
-        font-family: "Oxygen", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: "Oxygen", sans-serif;
+      font-size: 1rem;
+      
+      img {
+        width: 84px;
+        aspect-ratio: 1/1;
+      }
     }
 
-    img {
-      width: 112px;
-      aspect-ratio: 1/1;
-      padding: 1rem;
-    }
   }
 }
 
 .tab {
-    width: 45vw;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, 50%);
-    padding: 3rem 5vw;
-    border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  padding: 3rem 5vw;
 
-    #authForm  {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
+  height: 100vh;
+  width: 100vw;
+  
+  #authForm  {
+    padding: 2rem 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 30vw;
+    background-color: white;
+    border-radius: 0.6rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    label, button {
+      margin-top: 12px;
     }
 
+    input, select {
+      font-size: 0.8rem;
+      padding: 0.2rem 0.5rem;
+    }
+
+    button {
+      padding: 0.3rem;
+    }
+  }
 }
 
 

@@ -3,7 +3,7 @@ const { ProfileController } = require("../controllers")
 const router = require("express").Router()
 
 router.get("/", (req, res) => {
-    res.render("index")
+    res.render("index", { auth : req.session.auth })
 })
 
 router.use("/auth", require("./auth.routes"))
