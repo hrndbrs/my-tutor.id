@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
 router.use("/auth", require("./auth.routes"))
 
 router.use((req, res, next) => {
-    if(!req.session.auth) return res.render("/auth")
+    if(!req.session.auth) return res.redirect("/auth")
 
     next()
 })

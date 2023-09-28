@@ -18,13 +18,15 @@ class ProfileController {
         } = req
 
         const models = {
-            tutor : { user : Instructor, profile : InstructorProfile},
-            student : { user : User, profile : UserProfile }
+            tutor : { user : Instructor, profile : InstructorProfile, foreignKey : "InstructorId" },
+            student : { user : User, profile : UserProfile, foreignKey : "StudentId" }
         }
 
         models[role].user.findOne({ 
             where: { roleId : auth },
-            include: { model: models[role].profile }
+            include: { 
+                model: models[role].profile,
+            }
         })
             .then(data => res.send(data))
             .catch(err => res.send(err))
