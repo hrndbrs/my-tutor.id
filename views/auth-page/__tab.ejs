@@ -1,8 +1,8 @@
-<div>
+<div class="tab-container">
     <div class="tab">
         <div class="tab-options">
-            <a href="/auth?tab=log-in">Log-In</a>
-            <a href="/auth?tab=register">Register</a>
+            <a  <% if(type === "Log-In") {%> class="active" <% } %> href="/auth?tab=log-in">Log-In</a>
+            <a  <% if(type === "Register") {%> class="active" <% } %> href="/auth?tab=register">Register</a>
         </div>
         <%- include("__form", { action, method, type }) %>
     </div>

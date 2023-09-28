@@ -106,7 +106,12 @@ class AuthController {
         }
     }
 
-    static 
+    static userWillLogOut(req, res) {
+        req.session.destroy(err => {
+            if(err) return redirect(`/?errors=${[err.message]}`)
+            res.redirect("/")
+        })
+    }
 }
 
 module.exports = AuthController 

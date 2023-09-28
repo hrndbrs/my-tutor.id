@@ -1,4 +1,4 @@
-<%- include("../components/__head", { title : "Log In"}) %>
+<%- include("../components/__head", { title : slugToPascal(tab)}) %>
    <main>
       <div>
          <%- errors && include("../components/__errorMessages", { errors }) %>
