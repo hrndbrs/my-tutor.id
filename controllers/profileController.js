@@ -1,6 +1,18 @@
-const { User, UserProfile, Instructor, InstructorProfile } = require("../models")
+const camelCaseSeparator = require("../helpers/camelCaseSeparator")
+const dateFormatter = require("../helpers/dateFormatter")
+const { 
+    User, 
+    UserProfile, 
+    Instructor, 
+    InstructorProfile 
+} = require("../models")
 
 class ProfileController {
+    static models = {
+        tutor : { user : Instructor, profile : InstructorProfile, foreignKey : "InstructorId" },
+        student : { user : User, profile : UserProfile, foreignKey : "UserId" }
+    }
+
     static redirect(req, res) {
         const { auth } = req.session
 
@@ -14,26 +26,62 @@ class ProfileController {
     static renderDashboard(req, res) {
         const { 
             params : { role },
-            session : { auth }
+            session : { auth },
+            query: { value }
         } = req
 
-        const models = {
-            tutor : { user : Instructor, profile : InstructorProfile, foreignKey : "InstructorId" },
-            student : { user : User, profile : UserProfile, foreignKey : "StudentId" }
-        }
+        const editMode = value === "edit" ? true : false
 
-        models[role].user.findOne({ 
+        
+
+        ProfileController.models[role].user.findOne({ 
             where: { roleId : auth },
+            attributes: [
+                ["roleId", "id"],
+                "email",
+                "createdAt"
+            ],
             include: { 
-                model: models[role].profile,
+                model: ProfileController.models[role].profile,
+                as : 'Profile',
+                attributes : {
+                    exclude : ["id", "createdAt", "updatedAt"]
+                }
             }
         })
-            .then(data => res.send(data))
-            .catch(err => res.send(err))
+            .then(data => res.render(
+                "dashboard/dashboard.ejs", 
+                { user : data.dataValues, camelCaseSeparator, dateFormatter, auth, editMode, role }
+            ))
+            .catch(err => res.send(err.message))
     }
 
-    static renderEditProfile(req, res) {
+    static editUserProfile(req, res) {
+        const { 
+            params : { roleId },
+            query : { role },
+            body : {
+                email,
+                firstName,
+                lastName,
+                gender,
+                education,
+                description,
+                occupation,
+                dateOfBirth
+            } 
+        } = req
 
+        ProfileController.models[role].user.update(
+            { email },
+            { where : { roleId }}
+        )
+            .then(() => ProfileController.models[role].profile.update(
+                { firstName, lastName, gender, education, description, occupation, dateOfBirth },
+                { where : { [ProfileController.models[role].foreignKey] : roleId}}
+            ))
+            .then(() => res.redirect(`/${role}/dashboard`))
+            .catch(err => res.send(err.message))
     }
 }
 

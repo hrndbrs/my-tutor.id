@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   class Instructor extends Model {
     static associate(models) {
       Instructor.hasOne(models.InstructorProfile, {
+        as: "Profile",
         foreignKey: 'InstructorId', 
         sourceKey: 'roleId',  
       })

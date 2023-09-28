@@ -1,13 +1,13 @@
 <form id="authForm" action="<%= action %>" method="<%= method %>">
     <label for="email">Email</label>
-    <input type="text" name="email">
+    <input type="text" name="email" placeholder="udin@rocketmail.com">
     <label for="password">Password</label>
-    <input type="password" name="password">
-    <label for="role"><%= type %> As</label>
+    <input type="password" name="password" placeholder="********">
+    <label for="role"><%= type %> as</label>
     <select name="role" <% if(type === "Register") { %>id="roleRegister"<% } else { %> id="role" <% } %> >
         <option selected hidden disabled>Select Role</option>
         <option value="tutor">Tutor</option>
         <option value="student">Student</option>
     </select>
-    <button id="authBtn" type="submit"><%= type %> Now!</button>
+    <button id="authBtn" type="submit" class="customBtn"><%= type %> Now!</button>
 </form>

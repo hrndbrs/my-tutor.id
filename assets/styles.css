@@ -12,27 +12,47 @@ a {
 body {
   font-family: "IBM Plex Sans", sans-serif;
   position: relative;
-  background-color: #FFB38A;
+  background-color: lightgray;
 }
 
 main {
   position: unset;
 }
 
-input, select {
+input,
+select,
+textarea {
   all: unset;
-  border: 2px solid grey;
+  border: 2px solid rgb(79, 78, 78);
   font-size: 0.9rem;
   padding: 0.2rem 0.5rem;
   border-radius: 0.2rem;
+  transition: all 0.2s;
+}
+input:hover, input:active, input:focus,
+select:hover,
+select:active,
+select:focus,
+textarea:hover,
+textarea:active,
+textarea:focus {
+  border-color: #000;
 }
 
 .top-nav {
   position: sticky;
   z-index: 100;
 }
+.top-nav a {
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.3rem;
+  transition: all 0.15s;
+}
+.top-nav a:hover {
+  background-color: lightgray;
+}
 .top-nav nav {
-  padding-block: 1rem;
+  padding-block: 0.8rem;
   display: flex;
   width: 100vw;
   justify-content: center;
@@ -43,6 +63,7 @@ input, select {
 .top-nav nav .role {
   display: flex;
   gap: 5vw;
+  align-items: center;
 }
 .top-nav nav .redirect-login {
   font-size: 1.1rem;
@@ -53,6 +74,9 @@ input, select {
   align-items: center;
   font-family: "Oxygen", sans-serif;
   font-size: 1rem;
+}
+.top-nav nav .main-logo:hover {
+  background-color: transparent;
 }
 .top-nav nav .main-logo img {
   width: 24px;
@@ -117,7 +141,91 @@ input, select {
 .tab-container .tab #authForm label, .tab-container .tab #authForm button {
   margin-top: 8px;
 }
-.tab-container .tab #authForm button {
+
+.dashboard {
+  padding-block: 4rem;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  gap: 6vw;
+  color: #707782;
+}
+
+.card-container {
+  padding-top: 4rem;
+}
+.card-container .card {
+  background-color: #161B22;
+  color: #fff;
+  border-radius: 2rem;
+  width: 20vw;
+  min-height: 20vw;
+  padding: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+.card-container .card .content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.card-container .card .content button {
+  border: none;
+  margin-top: 1.2rem;
+  width: 100%;
+  color: #fff;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  background-color: transparent;
+  transition: all 0.3s;
+}
+.card-container .card .content button:hover {
+  box-shadow: rgba(32, 33, 33, 0.5019607843) 0 2px 3px 0;
+  background-color: rgba(255, 255, 255, 0.07);
+}
+.card-container .card .content button:focus {
+  box-shadow: rgba(213, 217, 217, 0.5) 0 2px 5px 0;
+}
+
+.detail-container {
+  display: flex;
+  flex-direction: column;
+}
+.detail-container label,
+.detail-container h4 {
+  color: #fff;
+}
+
+.content-container p,
+.content-container textarea {
+  margin-bottom: 0.5rem;
+}
+.content-container input,
+.content-container textarea,
+.content-container select {
+  margin-top: 0.2rem;
+  border-color: #35383f;
+  min-width: 30vw;
+}
+.content-container input:hover:not([disabled]), .content-container input:active:not([disabled]), .content-container input:focus:not([disabled]),
+.content-container textarea:hover:not([disabled]),
+.content-container textarea:active:not([disabled]),
+.content-container textarea:focus:not([disabled]),
+.content-container select:hover:not([disabled]),
+.content-container select:active:not([disabled]),
+.content-container select:focus:not([disabled]) {
+  background-color: rgba(66, 72, 79, 0.769);
+  color: #fff;
+}
+.content-container button {
+  margin-block: 1rem 3rem;
+}
+
+.customBtn {
   cursor: pointer;
   background: #DA5652;
   border: 0;
@@ -127,20 +235,25 @@ input, select {
   transform: translateZ(0) scale(1);
   transition: transform 0.2s;
 }
-.tab-container .tab #authForm button:disabled {
+
+.customBtn:disabled {
   color: #787878;
   cursor: auto;
 }
-.tab-container .tab #authForm button:not(:disabled):hover {
+
+.customBtn:not(:disabled):hover {
   transform: scale(1.02);
 }
-.tab-container .tab #authForm button:not(:disabled):hover:active {
+
+.customBtn:not(:disabled):hover:active {
   transform: scale(1.02) translateY(0.125rem);
 }
-.tab-container .tab #authForm button:focus {
+
+.customBtn:focus {
   outline: 0 solid transparent;
 }
-.tab-container .tab #authForm button:focus:before {
+
+.customBtn:focus:before {
   border-width: 0.125rem;
   content: "";
   left: -0.375rem;
@@ -150,10 +263,12 @@ input, select {
   transition: border-radius;
   user-select: none;
 }
-.tab-container .tab #authForm button:focus:not(:focus-visible) {
+
+.customBtn:focus:not(:focus-visible) {
   outline: 0 solid transparent;
 }
-.tab-container .tab #authForm button:not(:disabled):active {
+
+.customBtn:not(:disabled):active {
   transform: translateY(0.125rem);
 }
 

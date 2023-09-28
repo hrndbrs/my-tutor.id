@@ -4,8 +4,22 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class InstructorProfile extends Model {
+    get fullName() {
+      return this.firstName + " " + this.lastName
+    }
+
+    convertDate(date = this.dateOfBirth) {
+      const year = date?.getFullYear()
+      const month = date?.getMonth().toString().padStart(2, "0")
+      const day = date?.getDate().toString().padStart(2, "0")
+
+      return `${year}-${month}-${day}`
+    }
+
     static associate(models) {
       InstructorProfile.belongsTo(models.Instructor, {
+        as: "User",
+        onDelete:"CASCADE",
         foreignKey: 'InstructorId', 
         targetKey: 'roleId',  
       })

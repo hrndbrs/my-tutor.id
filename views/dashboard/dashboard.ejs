@@ -1,6 +1,75 @@
-<%- include("../components/__head", { title : "Dashboard"}) %>
-    <main>
-        
+<%- include("../components/__head", { title : "Dashboard", auth, backgroundColor : "#1c2129"}) %>
+<% const cols = 30, rows = 10 %>
+    <main class="dashboard">
+        <div class="card-container">
+            <div class="card">
+                <div class="content">
+                    <h3>
+                        <%= role === "tutor" 
+                            ? "Instructor" : role === "student"
+                            ? "Student" : ""%> #<%- user.id %>
+                    </h3>
+                    <h2>
+                        <%= 
+                            user.Profile.firstName || user.Profile.lastName 
+                                ? user.Profile.fullName.trim() 
+                                : user.email
+                        %>
+                    </h2>
+                    <p>Joined on :</p>
+                    <p><%= dateFormatter(user.createdAt)%></p>
+                    <% if(!editMode) {%> 
+                        <a href="/<%= role %>/dashboard?value=edit">
+                            <button type="button">Edit Profile</button>
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="content-container">
+            <% if(editMode) {%>
+                <form action="/profile/edit/<%= user.id %>?role=<%= role %>" class="detail-container" method="POST">
+                    <label for="email">E-mail address</label>
+                    <input type="text" name="email"  value="<%= user.email || "Write something..."%>">
+                    <% Object.keys(user.Profile.dataValues).map((key, i, keys) => {
+                        if(keys.at(-1) === key) return %>
+                        
+                        <label for="<%= key %>"><%= camelCaseSeparator(key) %></label>
+                        <% if(key === "description") {%> 
+                            <textarea name="<%= key %>" id="<%= key %>" cols="30" rows="10">
+                                <%= user.Profile[key] || "How would you describe yourself?" %>
+                            </textarea>
+                            <% return 
+                        } else if(key === "gender") { %>
+                            <select name="gender" id="gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <%return 
+                        } else if(key === "dateOfBirth") { %>
+                            <input type="date" value="<%= user.Profile.convertDate()%>" name="dateOfBirth" >
+                            <%return
+                        } %>
+                            <input type="text" name="<%= key %>" value="<%= user.Profile[key]%>" placeholder="Write something...">
+                        <% }) %>
+                    <button class="customBtn" type="submit">Edit & Save</button>
+                </form>
+            <% } else { %>
+                <div class="detail-container"> 
+                    <h4>E-mail address</h4>
+                    <p><%= user.email %></p>
+                    <% Object.keys(user.Profile.dataValues).map((key, i, keys) => {
+                        if(keys.at(-1) === key) return %>
+                        <h4><%= camelCaseSeparator(key) %></h4>
+                        <% if(key === "description") {%> 
+                                <textarea name="<%= key %>" id="<%= key %>" cols="<%= cols %>" rows="<%= rows %>" disabled>
+                                    <%= user.Profile[key] ? user.Profile[key] : "Not set" %>
+                                </textarea>
+                            <% } else { %><p><%= user.Profile[key] ? user.Profile[key] : "Not set" %></p><% } %>
+                    <% }) %>
+                </div>
+            <% } %>
+        </div>
     </main>
 </body>
 </html>

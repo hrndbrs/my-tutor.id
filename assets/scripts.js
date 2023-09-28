@@ -14,11 +14,12 @@ if(optionalSelect) {
 
     const label = document.createElement("label")
     label.setAttribute("for", "course")
-    label.innerHTML = "What do you teach?"
+    label.innerHTML = "What are you interested in teaching?"
 
     const input = document.createElement("input")
     input.setAttribute("name", "course")
     input.setAttribute("type", "text")
+    input.setAttribute("placeholder", "e.g : Ngojol")
 
     optionalSelect.addEventListener("change", (e) => {
         e.preventDefault()

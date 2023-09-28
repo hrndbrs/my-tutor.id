@@ -13,7 +13,5 @@
     <script defer type="module" src="/scripts.js"></script>
     <title>myTutor.id | <%= title %></title>
   </head>
-  <body>
+  <body <% if(locals.backgroundColor){ %> style="background-color: <%= backgroundColor %>;" <% } %> >
     <%- include("__navbar") %>
-  </body>
-</html>

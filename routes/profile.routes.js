@@ -2,6 +2,6 @@ const { ProfileController } = require("../controllers")
 
 const router = require("express").Router()
 
-router.get("/", ProfileController)
+router.post("/edit/:roleId", ProfileController.editUserProfile)
 
 module.exports = router
